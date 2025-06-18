@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real Estate Post Generator</title>
+</head>
+<body>
+  <h2>Generate Social Post from Listing</h2>
+  <input type="url" id="url" placeholder="Paste listing URL here" style="width: 60%;">
+  <button onclick="generate()">Generate</button>
+  <div id="result" style="margin-top: 20px;"></div>
+
+  <script>
+    async function generate() {
+      const url = document.getElementById('url').value;
+      const res = await fetch('/generate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ url })
+      });
+      const data = await res.json();
+      if (data.error) {
+        document.getElementById('result').innerText = 'Error: ' + data.error;
+        return;
+      }
+      document.getElementById('result').innerHTML = `
+        <img src="${data.image}" style="max-width:100%; margin-bottom:10px;" />
+        <textarea rows="8" style="width:100%;">${data.caption}</textarea>
+      `;
+    }
+  </script>
+</body>
+</html>
