@@ -36,7 +36,5 @@ def generate():
         caption = f"🏡 {data['address']}\n💰 {data['price']}\n🛏 {data['beds']} | 🛁 {data['baths']}\n🔗 {url}"
         return jsonify({'caption': caption, 'image': data['img']})
     except Exception as e:
+        print("ERROR:", e)
         return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
